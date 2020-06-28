@@ -29,7 +29,7 @@ do
         #sudo docker restart www.petclinic$i 
         
 	echo "=============================="
-        sleep 10;
+       
 
         script2="$script2 \n server $servername_ip:706$i;\n "
 done
@@ -51,14 +51,14 @@ docker run --name nginx_load_balancder -p 8080:80 -d load-balance-nginx
 
 
 dockerList1=`sudo docker ps -a -q  --format "table {{.Names}}" | grep -i "petclinic\|nginx_load_balancder" `
-
+curl http://192.168.205.10:8080/
 if [ -z "$dockerList1" ] ; then
         echo "String null"
 else
 sudo docker ps -a -q  --format "table {{.Names}}" | grep -i "petclinic\|nginx_load_balancder"  | xargs sudo docker restart 
 fi
 
-sleep 10;
+
 #sudo docker exec www.petclinic2 /root/apache-tomcat-7.0.104/bin/shutdown.sh
 sudo docker exec www.petclinic2 /root/apache-tomcat-7.0.104/bin/startup.sh
 #sudo docker exec www.petclinic1 /root/apache-tomcat-7.0.104/bin/shutdown.sh
