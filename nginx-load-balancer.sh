@@ -58,7 +58,7 @@ else
 sudo docker ps -a -q  --format "table {{.Names}}" | grep -i "petclinic\|nginx_load_balancder"  | xargs sudo docker restart 
 fi
 
-sleep 10
+sleep 10;
 #sudo docker exec www.petclinic2 /root/apache-tomcat-7.0.104/bin/shutdown.sh
 sudo docker exec www.petclinic2 /root/apache-tomcat-7.0.104/bin/startup.sh
 #sudo docker exec www.petclinic1 /root/apache-tomcat-7.0.104/bin/shutdown.sh
