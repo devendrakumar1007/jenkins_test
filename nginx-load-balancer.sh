@@ -52,6 +52,7 @@ docker run --name nginx_load_balancder -p 8080:80 -d load-balance-nginx
 
 dockerList1=`sudo docker ps -a -q  --format "table {{.Names}}" | grep -i "petclinic\|nginx_load_balancder" `
 curl http://192.168.205.10:8080/
+sleep 1000;
 if [ -z "$dockerList1" ] ; then
         echo "String null"
 else
