@@ -3,6 +3,10 @@ cont_count=$1
 echo "creating $cont_count containers.."
 sleep 2;
 
+# Remvoe the old docker  if exist
+sudo docker ps -a -q  --format "table {{.Names}}" | grep -i "pet" | xargs  sudo  docker rm -f
+
+
 script="upstream loadbalance { \n least_conn; \n "
 script2=""
 echo "$script"
@@ -14,8 +18,8 @@ do
         sleep 1
         sudo docker run --name www.petclinic$i -itd -p 706$i:8080 abc-img /bin/bash
         echo "www.petclinic$i container has been created!"
-        sudo docker exec www.petclinic$i /root/apache-tomcat-7.0.104/bin/shutdown.sh
-        sudo docker exec www.petclinic$i /root/apache-tomcat-7.0.104/bin/startup.sh
+        
+        
 	echo "=============================="
 
         script2="$script2 \n server $servername_ip:706$i;\n "
@@ -31,3 +35,10 @@ docker build -t load-balance-nginx .
 
 #nginx docker conainer creation for load balancer 
 docker run --name nginx_load_balancder -p 8080:80 -d load-balance-nginx
+
+# Restart the shutdown  tomcat server 
+sudo docker ps -a -q  --format "table {{.Names}}" | grep -i "pet" | xargs  sudo  docker  exec   /root/apache-tomcat-7.0.104/bin/shutdown.sh
+sudo docker ps -a -q  --format "table {{.Names}}" | grep -i "pet" | xargs  sudo  docker  exec   /root/apache-tomcat-7.0.104/bin/startup.sh
+
+
+
