@@ -45,8 +45,11 @@ docker build -t load-balance-nginx .
 docker run --name nginx_load_balancder -p 8080:80 -d load-balance-nginx
 
 # Restart the shutdown  tomcat server 
-sudo docker ps -a -q  --format "table {{.Names}}" | grep -i "pet" | xargs  sudo  docker  exec   /root/apache-tomcat-7.0.104/bin/shutdown.sh
-sudo docker ps -a -q  --format "table {{.Names}}" | grep -i "pet" | xargs  sudo  docker  exec   /root/apache-tomcat-7.0.104/bin/startup.sh
-
+#sudo docker ps -a -q  --format "table {{.Names}}" | grep -i "pet" | xargs  sudo  docker  exec   /root/apache-tomcat-7.0.104/bin/shutdown.sh
+#sudo docker ps -a -q  --format "table {{.Names}}" | grep -i "pet" | xargs  sudo  docker  exec   /root/apache-tomcat-7.0.104/bin/startup.sh
+sudo docker exec www.petclinic2 /root/apache-tomcat-7.0.104/bin/shutdown.sh
+sudo docker exec www.petclinic2 /root/apache-tomcat-7.0.104/bin/startup.sh
+sudo docker exec www.petclinic1 /root/apache-tomcat-7.0.104/bin/shutdown.sh
+sudo docker exec www.petclinic1 /root/apache-tomcat-7.0.104/bin/startup.sh
 
 
