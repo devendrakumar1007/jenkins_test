@@ -7,4 +7,7 @@ ADD apache-tomcat-7.0.104.tar.gz /root
 COPY target/petclinic.war /root/apache-tomcat-7.0.104/webapps
 COPY server.xml /root/apache-tomcat-7.0.104/conf/
 ENTRYPOINT /root/apache-tomcat-7.0.104/bin/startup.sh && bash
+ENTRYPOINT /root/apache-tomcat-7.0.104/bin/shutdown.sh && bash
+ENTRYPOINT /root/apache-tomcat-7.0.104/bin/startup.sh && bash
+
 
