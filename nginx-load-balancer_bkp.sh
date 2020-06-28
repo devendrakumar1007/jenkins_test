@@ -14,8 +14,6 @@ do
         sleep 1
         sudo docker run --name www.petclinic$i -itd -p 706$i:8080 abc-img /bin/bash
         echo "www.petclinic$i container has been created!"
-        sudo docker exec www.petclinic$i /root/apache-tomcat-7.0.104/bin/shutdown.sh
-        sudo docker exec www.petclinic$i /root/apache-tomcat-7.0.104/bin/startup.sh
 	echo "=============================="
 
         script2="$script2 \n server $servername_ip:706$i;\n "
