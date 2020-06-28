@@ -4,7 +4,15 @@ echo "creating $cont_count containers.."
 sleep 2;
 
 # Remvoe the old docker  if exist
-sudo docker ps -a -q  --format "table {{.Names}}" | grep -i "pet" | xargs  sudo  docker rm -f
+
+dockerList=`sudo docker ps -a -q  --format "table {{.Names}}" | grep -i "petclinic\|nginx_load_balancder" `
+
+if [ -z "$dockerList" ] ; then
+        echo "String null"
+else
+sudo docker ps -a -q  --format "table {{.Names}}" | grep -i "petclinic\|nginx_load_balancder"  | xargs  sudo  docker rm -f
+fi
+
 
 
 script="upstream loadbalance { \n least_conn; \n "
