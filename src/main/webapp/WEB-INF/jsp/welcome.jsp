@@ -5,8 +5,10 @@
 <%@ page contentType="text/html; charset=iso-8859-1" language="java"  %>
 <%
  String hostName=request.getServerName();
+ String localIP=request.getLocalAddr();
 %>
  Host Name of server <%=hostName%>
+Local ip Name of server <%=localIP%>
 <petclinic:layout pageName="home">
     <h2><fmt:message key="welcome"/></h2>
     <div class="row">
