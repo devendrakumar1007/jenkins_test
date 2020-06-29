@@ -5,6 +5,10 @@ sleep 2;
 
 # Remvoe the old docker  if exist
 
+sudo docker run --name www.petclinic -itd -p 7060:8080 abc-img /bin/bash
+sudo docker exec www.petclinic /root/apache-tomcat-7.0.104/bin/startup.sh
+sudo docker commit www.petclinic base-war-image
+
 dockerList=`sudo docker ps -a -q  --format "table {{.Names}}" | grep -i "petclinic\|nginx_load_balancder" `
 
 if [ -z "$dockerList" ] ; then
@@ -24,7 +28,7 @@ do
 	echo "=============================="
         echo "Creating www.petclinic$i container.."
         sleep 1
-        sudo docker run --name www.petclinic$i -itd -p 706$i:8080 abc-img /bin/bash
+        sudo docker run --name www.petclinic$i -itd -p 706$i:8080 base-war-image /bin/bash
         sudo docker exec www.petclinic$i /root/apache-tomcat-7.0.104/bin/startup.sh
         echo "www.petclinic$i container has been created!"
         #sudo docker restart www.petclinic$i 
@@ -60,12 +64,13 @@ docker run --name nginx_load_balancder -p 8080:80 -d load-balance-nginx
 #sudo docker ps -a -q  --format "table {{.Names}}" | grep -i "petclinic\|nginx_load_balancder"  | xargs sudo docker restart 
 #fi
 
-sleep 2;
-sudo docker exec www.petclinic1 /root/apache-tomcat-7.0.104/bin/shutdown.sh
-sudo docker exec www.petclinic2 /root/apache-tomcat-7.0.104/bin/shutdown.sh
-sleep 2;
-sudo docker exec www.petclinic2 /root/apache-tomcat-7.0.104/bin/startup.sh
-sudo docker exec www.petclinic1 /root/apache-tomcat-7.0.104/bin/startup.sh
+#sleep 2;
+#sudo docker exec www.petclinic1 /root/apache-tomcat-7.0.104/bin/shutdown.sh
+#sudo docker exec www.petclinic2 /root/apache-tomcat-7.0.104/bin/shutdown.sh
+#sleep 2;
+
+#sudo docker exec www.petclinic2 /root/apache-tomcat-7.0.104/bin/startup.sh
+#sudo docker exec www.petclinic1 /root/apache-tomcat-7.0.104/bin/startup.sh
 
 
 
