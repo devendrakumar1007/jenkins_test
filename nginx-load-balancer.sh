@@ -8,7 +8,7 @@ sleep 2;
 sudo docker run --name www.petclinic -itd -p 7060:8080 abc-img /bin/bash
 sudo docker exec www.petclinic /root/apache-tomcat-7.0.104/bin/startup.sh
 sleep 10;
-curl http://192.168.205.10:8080/petclinic
+curl http://192.168.205.10:7060/petclinic
 sleep 10;
 sudo docker commit www.petclinic base-war-image
 
