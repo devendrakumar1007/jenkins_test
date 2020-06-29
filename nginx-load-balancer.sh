@@ -7,9 +7,9 @@ sleep 2;
 
 sudo docker run --name www.petclinic -itd -p 7060:8080 abc-img /bin/bash
 sudo docker exec www.petclinic /root/apache-tomcat-7.0.104/bin/startup.sh
-sleep 2;
+sleep 10;
 curl http://192.168.205.10:8080/petclinic
-sleep 2;
+sleep 10;
 sudo docker commit www.petclinic base-war-image
 
 dockerList=`sudo docker ps -a -q  --format "table {{.Names}}" | grep -i "petclinic\|nginx_load_balancder" `
