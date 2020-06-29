@@ -19,11 +19,33 @@ pipeline {
 				git 'https://github.com/devendrakumar1007/jenkins_test.git'
 			}
 		}
+		
+		stage('copy tomcat to workspace dir') {
+	    	steps {
+				sh 'cp /home/vagrant/apache-tomcat-7.0.104.tar.gz .'
+			}
+	    }
+		
 		stage('Build') {
 	    	steps {
 				sh 'mvn install -DskipTests'
 			}
 	    }
+		
+		stage('DockerImageCreate') {
+	    	steps {
+				sh 'sudo docker build -t abc-img .'
+			}
+	    }
+		
+		stage('Docker Container creation') {
+	    	steps {
+			    
+				sh 'sh nginx-load-balancer.sh 4'
+			}
+	    }
+		
+		
 		stage('Unit Tests') {
 			steps {
 				sh 'mvn surefire:test'
@@ -32,7 +54,7 @@ pipeline {
 		stage('Deployment') {
 	    	steps {
 				print "Deployment is done!"
-				sh 'sshpass -p "gamut" scp target/gamutkart.war gamut@172.17.0.3:/home/gamut/apache-tomcat-7.0.104/webapps/'
+				sh 'sshpass -p "gamut" scp target/petclinic.war gamut@172.17.0.3:/home/gamut/apache-tomcat-7.0.104/webapps/'
 				//sh 'sshpass -p "gamut" ssh -o StrictHostKeyChecking=no gamut@172.17.0.3 "JAVA_HOME=/usr/bin/java" "/home/gamut/apache-tomcat-7.0.104/bin/startup.sh"'	
 				sh 'sshpass -p "gamut" ssh  gamut@172.17.0.3 "JAVA_HOME=/usr/bin/java" "/home/gamut/apache-tomcat-7.0.104/bin/startup.sh"'	
 
@@ -66,6 +88,8 @@ publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, 
 			}
 		
 		}
+		
+		
 	
 		
     }
